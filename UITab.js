@@ -1,50 +1,71 @@
-
-import React from 'react';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
-import Icon from 'react-native-vector-icons/FontAwesome';
+import React from "react";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import Icon from "react-native-vector-icons/FontAwesome";
 import Home from "./Screens/Home";
-import BorrowingSlip from "./Screens/BorrowingSlip";
-import TypeBook from "./Screens/TypeBook";
-import Book from "./Screens/Book";
-import Member from "./Screens/Member";
-import { Ionicons } from '@expo/vector-icons';
-const Tab = createBottomTabNavigator()
-const screenOptions = ({route})=>({
-    headerShown: false,
-    tabBarActiveTintColor: 'white',
-    tabBarActiveBackgroundColor : '#FF5C00',
-    tabBarInactiveBackgroundColor : '#FF5C00',
-    tabBarInactiveTintColor: 'rgba(0,0,0,0.5)',
-    tabBarIcon: ({focused, color , size}) => {
-        let screenName = route.name;
-        let iconName = "";
-        if(screenName == "Home"){
-            iconName = "home"
-        }else if (screenName == "BorrowingSlip"){
-            iconName = "bookmark"
-        }
-        else if (screenName == "TypeBook"){
-            iconName = "bookmarks-outline"
-        }
-        else if (screenName == "Book"){
-            iconName = "book"
-        }
-        else if (screenName == "Member"){
-            iconName = "person"
-        }
-        return <Ionicons
-            name= {iconName}
-            size={23}
-            color={focused ? 'white' : 'rgba(0,0,0,0.5)'}/>
-    },
-})
-function UITab (props){
-    return <Tab.Navigator screenOptions={screenOptions}>
-        <Tab.Screen name = {"Home"} component={Home} options={{tabBarLabel: 'Home'}}/>
-        <Tab.Screen name = {"BorrowingSlip"} component={BorrowingSlip} options={{tabBarLabel: 'Phiếu'}}/>
-        <Tab.Screen name = {"TypeBook"} component={TypeBook} options={{tabBarLabel: 'Loại'}}/>
-        <Tab.Screen name = {"Book"} component={Book} options={{tabBarLabel: 'Sách'}}/>
-        <Tab.Screen name = {"Member"} component={Member} options={{tabBarLabel: 'Thành viên'}}/>
+import Cart from "./Screens/CartBook";
+import MyFavourite from "./Screens/MyFavourite";
+import Order from "./Screens/Order";
+import Reply from "./Screens/Reply";
+import { Ionicons } from "@expo/vector-icons";
+import { colors, image, icons, fontSizes, texts } from "./contains";
+const Tab = createBottomTabNavigator();
+const screenOptions = ({ route }) => ({
+  headerShown: false,
+  tabBarActiveTintColor: "#FF5C00",
+  tabBarActiveBackgroundColor: "#FFFFFF",
+  tabBarInactiveBackgroundColor: "#FFFFFF",
+  tabBarInactiveTintColor: "#B5B5B5",
+  tabBarIcon: ({ focused, color, size }) => {
+    let screenName = route.name;
+    let iconName = "";
+    if (screenName == "Home") {
+      iconName = icons.home;
+    } else if (screenName == "MyFavourite") {
+      iconName = icons.favourite;
+    } else if (screenName == "Order") {
+      iconName = icons.order;
+    } else if (screenName == "Reply") {
+      iconName = icons.email;
+    }
+    return (
+      <Ionicons
+        name={iconName}
+        size={25}
+        color={focused ? "#FF5C00" : "#B5B5B5"}
+      />
+    );
+  },
+});
+function UITab({ route }) {
+  const foundAccount = route.params;
+
+  return (
+    <Tab.Navigator screenOptions={screenOptions}>
+      <Tab.Screen
+        name={"Home"}
+        component={Home}
+        initialParams={{ foundAccount: foundAccount }}
+        options={{ tabBarLabel: "Trang chủ" }}
+      />
+      <Tab.Screen
+        name={"MyFavourite"}
+        component={MyFavourite}
+        initialParams={{ foundAccount: foundAccount }}
+        options={{ tabBarLabel: "Yêu thích" }}
+      />
+      <Tab.Screen
+        name={"Order"}
+        component={Order}
+        initialParams={{ foundAccount: foundAccount }}
+        options={{ tabBarLabel: "Đơn hàng" }}
+      />
+      <Tab.Screen
+        name={"Reply"}
+        component={Reply}
+        initialParams={{ foundAccount: foundAccount }}
+        options={{ tabBarLabel: "Phản hồi" }}
+      />
     </Tab.Navigator>
+  );
 }
-export default UITab
+export default UITab;
